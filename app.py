@@ -6,7 +6,7 @@ from pathlib import Path
 import auth  # Module xác thực phân quyền
 
 # ---------------------------------------------------------
-# 1. CẤU HÌNH TRANG WEB & KHỞI TẠO THEME
+# 1. CẤU HÌNH TRANG WEB
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Cocoon Market & Consumer Intelligence",
@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# 2. BỘ CSS NỀN SÁNG CAO CẤP (EXECUTIVE LIGHT MODE)
+# 2. BỘ CSS NỀN SÁNG CAO CẤP (HIGH CONTRAST LIGHT MODE)
 # ---------------------------------------------------------
 st.markdown("""
 <style>
@@ -26,13 +26,13 @@ st.markdown("""
         font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
 
-    /* Nền trang màu xám dịu mắt */
+    /* Force Light Background */
     .stApp {
         background-color: #f1f5f9 !important;
         color: #0f172a !important;
     }
 
-    /* Thanh lề bên trái - Dark Navy đẳng cấp */
+    /* Sidebar - Dark Navy Style */
     div[data-testid="stSidebar"] {
         background-color: #0f172a !important;
         border-right: 1px solid #1e293b;
@@ -55,15 +55,15 @@ st.markdown("""
         border: 1px solid #334155 !important;
     }
 
-    /* Khung Header Banner */
+    /* Executive Header Banner */
     .executive-header {
         background: #ffffff;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #cbd5e1;
         border-left: 6px solid #d4af37;
         padding: 22px 28px;
         border-radius: 14px;
         margin-bottom: 22px;
-        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.03);
+        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
     }
     .executive-title {
         color: #0f172a !important;
@@ -76,73 +76,75 @@ st.markdown("""
         justify-content: space-between;
     }
     .executive-subtitle {
-        color: #64748b !important;
+        color: #475569 !important;
         font-size: 13.5px !important;
         margin-top: 5px !important;
         font-weight: 500;
     }
 
-    /* Thẻ chỉ số Metric Cards (Trắng tinh khôi, viền nổi) */
+    /* METRIC CARDS FIX - TỐI ƯU HIỂN THỊ CHỮ TÊN CHỈ SỐ RÕ NÉT 100% */
     div[data-testid="stMetric"] {
         background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
+        border: 1px solid #cbd5e1 !important;
         padding: 18px 20px !important;
         border-radius: 14px !important;
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
-        transition: all 0.25s ease !important;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
     }
-    div[data-testid="stMetric"]:hover {
-        border-color: #d4af37 !important;
-        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.18) !important;
-        transform: translateY(-2px) !important;
-    }
-    div[data-testid="stMetricLabel"] {
-        font-size: 12px !important;
-        color: #64748b !important;
+    div[data-testid="stMetricLabel"],
+    div[data-testid="stMetricLabel"] *,
+    div[data-testid="stMetricLabel"] p {
+        font-size: 13px !important;
+        color: #0f172a !important; /* ĐEN ĐẬM SẮC NẾT HOÀN TOÀN */
         text-transform: uppercase !important;
         letter-spacing: 0.5px !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
     }
-    div[data-testid="stMetricValue"] {
-        font-size: 24px !important;
+    div[data-testid="stMetricValue"],
+    div[data-testid="stMetricValue"] * {
+        font-size: 26px !important;
         font-weight: 800 !important;
         color: #b8860b !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
     }
 
-    /* Định dạng Tabs */
+    /* TABS FIX - SỬA LỖI CHỮ TAB BỊ MỜ */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-        border-bottom: 2px solid #e2e8f0;
+        gap: 10px;
+        border-bottom: 2px solid #cbd5e1;
         padding-bottom: 6px;
-        margin-bottom: 18px;
+        margin-bottom: 20px;
     }
     .stTabs [data-baseweb="tab"] {
         background-color: #ffffff !important;
-        border-radius: 8px !important;
-        padding: 10px 22px !important;
-        color: #475569 !important;
-        font-weight: 700 !important;
-        font-size: 13.5px !important;
+        border-radius: 10px !important;
+        padding: 10px 24px !important;
         border: 1px solid #cbd5e1 !important;
+        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03) !important;
+    }
+    .stTabs [data-baseweb="tab"] *,
+    .stTabs [data-baseweb="tab"] p {
+        color: #1e293b !important; /* MÀU CHỮ TAB CHƯA CHỌN: ĐEN XÁM ĐẬM RÕ NÉT */
+        font-weight: 700 !important;
+        font-size: 14px !important;
     }
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%) !important;
-        color: #ffffff !important;
         border-color: #d4af37 !important;
-        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25) !important;
+    }
+    .stTabs [aria-selected="true"] *,
+    .stTabs [aria-selected="true"] p {
+        color: #ffffff !important; /* MÀU CHỮ TAB ĐANG CHỌN: TRẮNG TINH */
+        font-weight: 800 !important;
     }
 
-    /* Khung nội dung */
+    /* CONTENT BOXES */
     .content-box {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 18px;
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 14px !important;
+        padding: 22px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03) !important;
+        color: #0f172a !important;
     }
     
     .badge-admin {
@@ -185,7 +187,6 @@ st.markdown(f"""
 BASE_DIR = Path(__file__).parent
 
 def fmt_currency(val):
-    """Quy đổi tiền tệ ngắn gọn, tránh lỗi rách khung"""
     if val >= 1e12:
         return f"{val/1e12:,.2f} Nghìn Tỷ đ".replace('.', ',')
     elif val >= 1e9:
@@ -196,7 +197,6 @@ def fmt_currency(val):
         return f"{val:,.0f} đ".replace(',', '.')
 
 def fmt_volume(val):
-    """Quy đổi sản lượng ngắn gọn"""
     if val >= 1e6:
         return f"{val/1e6:,.2f} Triệu SP".replace('.', ',')
     elif val >= 1e3:
@@ -268,7 +268,7 @@ except Exception as e:
     st.stop()
 
 # ---------------------------------------------------------
-# 5. BỘ LỌC SIDEBAR CHUYÊN NGHIỆP
+# 5. BỘ LỌC SIDEBAR
 # ---------------------------------------------------------
 st.sidebar.markdown("### 🎛️ BỘ LỌC ĐA CHIỀU")
 
@@ -320,7 +320,7 @@ st.sidebar.markdown("---")
 st.sidebar.caption("© 2026 Cocoon Market Intelligence Analytics")
 
 # ---------------------------------------------------------
-# 6. GIAO DIỆN 4 TAB CHUẨN DOANH NGHIỆP
+# 6. GIAO DIỆN 4 TAB CHUẨN EXECUTIVE
 # ---------------------------------------------------------
 tab1, tab2, tab3, tab4 = st.tabs([
     "💰 Thương Mại & Doanh Thu", 
@@ -350,10 +350,10 @@ with tab1:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Executive Briefing Callout
+    # Executive Summary Box
     st.markdown(f"""
-    <div class="content-box" style="border-left: 5px solid #d4af37; background: #ffffff;">
-        <h5 style="color: #0f172a; font-weight: 700; margin-bottom: 8px;">📊 BÁO CÁO TÓM TẮT HIỆU NĂNG THƯƠNG MẠI ({selected_channel.upper()})</h5>
+    <div class="content-box" style="border-left: 5px solid #d4af37;">
+        <h5 style="color: #0f172a; font-weight: 800; margin-bottom: 8px;">📊 BÁO CÁO TÓM TẮT HIỆU NĂNG THƯƠNG MẠI ({selected_channel.upper()})</h5>
         <ul style="color: #334155; font-size: 13.5px; margin-bottom: 0;">
             <li><b>Kênh đóng góp chính:</b> Sàn <b>Shopee</b> chiếm ưu thế vượt trội về sản lượng tiêu thụ dòng Tẩy tế bào chết Cà phê Đắk Lắk.</li>
             <li><b>Doanh số tổng hợp:</b> Đạt mốc <b>{fmt_currency(total_rev)}</b> với tổng số <b>{fmt_volume(total_vol)}</b> được giao thành công trong 30 ngày.</li>
@@ -364,28 +364,29 @@ with tab1:
 
     c1, c2 = st.columns([6, 4])
     with c1:
-        st.markdown("##### 🏆 Top 10 Sản Phẩm Có Doanh Thu Cao Nhất")
+        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>🏆 Top 10 Sản Phẩm Có Doanh Thu Cao Nhất</h5>", unsafe_allow_html=True)
         if not filtered_prod.empty and 'Doanh thu 30 ngày' in filtered_prod.columns:
             top_10 = filtered_prod.nlargest(10, 'Doanh thu 30 ngày').sort_values('Doanh thu 30 ngày', ascending=True)
             fig_top10 = px.bar(
                 top_10, y='Tên sản phẩm', x='Doanh thu 30 ngày',
                 orientation='h',
                 color='Nguồn',
-                color_discrete_map={'Shopee': '#ee4d2d', 'Hasaki': '#008a00'},
-                hover_data=['Giá bán', 'Lượt bán 30 ngày']
+                color_discrete_map={'Shopee': '#ee4d2d', 'Hasaki': '#008a00'}
             )
             fig_top10.update_layout(
                 template="plotly_white",
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(color="#0f172a"),
                 height=420,
                 margin=dict(l=10, r=10, t=20, b=20),
                 xaxis_title="Doanh thu (VNĐ)",
-                yaxis_title="",
-                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+                yaxis_title=""
             )
             st.plotly_chart(fig_top10, use_container_width=True)
 
     with c2:
-        st.markdown("##### 📊 Cơ Cấu Doanh Thu Theo Danh Mục")
+        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>📊 Cơ Cấu Doanh Thu Theo Danh Mục</h5>", unsafe_allow_html=True)
         if cat_col and not filtered_prod.empty:
             cat_df = filtered_prod.groupby(cat_col)['Doanh thu 30 ngày'].sum().reset_index()
             fig_donut = px.pie(
@@ -394,16 +395,18 @@ with tab1:
             )
             fig_donut.update_layout(
                 template="plotly_white",
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(color="#0f172a"),
                 height=420,
-                margin=dict(l=10, r=10, t=20, b=20),
-                legend=dict(orientation="h", yanchor="top", y=-0.05)
+                margin=dict(l=10, r=10, t=20, b=20)
             )
             st.plotly_chart(fig_donut, use_container_width=True)
 
     st.markdown("---")
     c3, c4 = st.columns(2)
     with c3:
-        st.markdown("##### ⚖️ So Sánh Doanh Thu Theo Kênh Bán")
+        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>⚖️ So Sánh Doanh Thu Theo Kênh Bán</h5>", unsafe_allow_html=True)
         if 'Nguồn' in df_prod.columns:
             channel_df = df_prod.groupby('Nguồn').agg(
                 Doanh_Thu=('Doanh thu 30 ngày', 'sum'),
@@ -415,17 +418,33 @@ with tab1:
                 color_discrete_map={'Shopee': '#ee4d2d', 'Hasaki': '#008a00'},
                 text_auto='.2s'
             )
-            fig_compare.update_layout(template="plotly_white", height=320, showlegend=False, yaxis_title="Doanh thu (VNĐ)")
+            fig_compare.update_layout(
+                template="plotly_white",
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(color="#0f172a"),
+                height=320,
+                showlegend=False,
+                yaxis_title="Doanh thu (VNĐ)"
+            )
             st.plotly_chart(fig_compare, use_container_width=True)
 
     with c4:
-        st.markdown("##### 🏷️ Phân Bố Mức Giá Bán Sản Phẩm")
+        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>🏷️ Phân Bố Mức Giá Bán Sản Phẩm</h5>", unsafe_allow_html=True)
         if 'Giá bán' in filtered_prod.columns:
             fig_hist = px.histogram(
                 filtered_prod, x='Giá bán', nbins=15,
                 color_discrete_sequence=['#b8860b']
             )
-            fig_hist.update_layout(template="plotly_white", height=320, yaxis_title="Số lượng SKU", xaxis_title="Giá bán (VNĐ)")
+            fig_hist.update_layout(
+                template="plotly_white",
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(color="#0f172a"),
+                height=320,
+                yaxis_title="Số lượng SKU",
+                xaxis_title="Giá bán (VNĐ)"
+            )
             st.plotly_chart(fig_hist, use_container_width=True)
 
 # =========================================================
@@ -451,7 +470,7 @@ with tab2:
 
     sc1, sc2 = st.columns(2)
     with sc1:
-        st.markdown("##### 🟢 Phân Bố Cảm Xúc Phản Hồi (Sentiment Index)")
+        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>🟢 Phân Bố Cảm Xúc Phản Hồi (Sentiment Index)</h5>", unsafe_allow_html=True)
         if 'Sentiment' in filtered_rev.columns and not filtered_rev.empty:
             s_df = filtered_rev['Sentiment'].value_counts().reset_index()
             s_df.columns = ['Sentiment', 'Count']
@@ -460,11 +479,17 @@ with tab2:
                 color='Sentiment',
                 color_discrete_map={'Tích cực': '#16a34a', 'Trung tính': '#eab308', 'Tiêu cực': '#dc2626'}
             )
-            fig_sent.update_layout(template="plotly_white", height=350, legend=dict(orientation="h", yanchor="top", y=-0.05))
+            fig_sent.update_layout(
+                template="plotly_white",
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(color="#0f172a"),
+                height=350
+            )
             st.plotly_chart(fig_sent, use_container_width=True)
 
     with sc2:
-        st.markdown("##### ⭐ Phân Bố Số Sao Đánh Giá (1★ - 5★)")
+        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>⭐ Phân Bố Số Sao Đánh Giá (1★ - 5★)</h5>", unsafe_allow_html=True)
         if 'Số sao (review)' in filtered_rev.columns and not filtered_rev.empty:
             star_df = pd.to_numeric(filtered_rev['Số sao (review)'], errors='coerce').value_counts().sort_index(ascending=False).reset_index()
             star_df.columns = ['Star', 'Count']
@@ -473,86 +498,20 @@ with tab2:
                 star_df, x='Star', y='Count',
                 text_auto=True, color_discrete_sequence=['#d4af37']
             )
-            fig_star.update_layout(template="plotly_white", height=350, yaxis_title="Lượt Review", xaxis_title="")
+            fig_star.update_layout(
+                template="plotly_white",
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(color="#0f172a"),
+                height=350,
+                yaxis_title="Lượt Review"
+            )
             st.plotly_chart(fig_star, use_container_width=True)
 
     st.markdown("---")
-    st.markdown("##### 💡 Phân Tích Điểm Sáng Khen Ngợi & Điểm Cần Cải Thiện")
+    st.markdown("<h5 style='color:#0f172a; font-weight:700;'>💡 Phân Tích Điểm Sáng Khen Ngợi & Điểm Cần Cải Thiện</h5>", unsafe_allow_html=True)
     k1, k2 = st.columns(2)
     with k1:
         st.markdown("""
         <div class="content-box" style="border-left: 5px solid #16a34a;">
-            <h6 style="color: #16a34a; font-weight: 700; margin-bottom: 8px;">💚 TOP ĐIỂM ĐƯỢC KHEN NGỢI NHIỀU NHẤT</h6>
-            <ul style="color: #334155; font-size: 13px;">
-                <li><b>Mùi hương tự nhiên:</b> Mùi cà phê Đắk Lắk, bưởi, bí đao tự nhiên, không bị nồng hóa chất.</li>
-                <li><b>Hiệu quả da:</b> Dưỡng ẩm mềm mịn, hạt tẩy tế bào chết mịn không làm rát da.</li>
-                <li><b>Đóng gói & Giao hàng:</b> Bao bì chỉn chu, thiết kế sang trọng, bọc chống sốc cẩn thận.</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-    with k2:
-        st.markdown("""
-        <div class="content-box" style="border-left: 5px solid #dc2626;">
-            <h6 style="color: #dc2626; font-weight: 700; margin-bottom: 8px;">⚠️ TOP ĐIỂM CẦN CẢI THIỆN & LƯU Ý</h6>
-            <ul style="color: #334155; font-size: 13px;">
-                <li><b>Vận chuyển:</b> Thi thoảng bị rò rỉ dung dịch nhẹ ở phần nắp hũ khi ship xa.</li>
-                <li><b>Da nhạy cảm:</b> Hạt cà phê mỏng đôi khi vẫn hơi to đối với làn da mặt quá nhạy cảm.</li>
-                <li><b>Độ lưu hương:</b> Sản phẩm dưỡng tóc lưu hương ở mức vừa phải (3–4 tiếng).</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("##### 💬 Bảng Tra Cứu Review Chi Tiết Khách Hàng")
-    rev_display = [c for c in ['Mã SP', 'Nguồn', 'Số sao (review)', 'Sentiment', 'Nội dung review', 'Ngày review', 'Đã mua hàng'] if c in filtered_rev.columns]
-    st.dataframe(filtered_rev[rev_display if rev_display else filtered_rev.columns], use_container_width=True, height=360)
-
-# =========================================================
-# TAB 3: DANH MỤC SẢN PHẨM & SKU MATRIX
-# =========================================================
-with tab3:
-    st.markdown("##### 📦 Bảng Matrix Quản Lý & Tra Cứu SKU Chi Tiết")
-    
-    prod_show_cols = [c for c in ['Mã SP', 'Nguồn', 'Tên sản phẩm', 'Category', 'Giá bán', 'Giá gốc', 'Lượt bán 30 ngày', 'Doanh thu 30 ngày', 'Điểm đánh giá TB', 'Link SP'] if c in filtered_prod.columns]
-    
-    st.dataframe(
-        filtered_prod[prod_show_cols if prod_show_cols else filtered_prod.columns],
-        column_config={
-            "Link SP": st.column_config.LinkColumn("Link Store", display_text="Xem Trang SP ↗"),
-            "Giá bán": st.column_config.NumberColumn("Giá Bán", format="%d VNĐ"),
-            "Doanh thu 30 ngày": st.column_config.NumberColumn("Doanh Thu 30D", format="%d VNĐ"),
-            "Lượt bán 30 ngày": st.column_config.ProgressColumn("Sản Lượng Bán", format="%d", min_value=0, max_value=int(filtered_prod['Lượt bán 30 ngày'].max()) if not filtered_prod.empty else 100),
-        },
-        use_container_width=True,
-        height=480
-    )
-
-    st.markdown("---")
-    if user_role == 'admin':
-        st.success("🔑 **XÁC THỰC QUYỀN ADMIN:** Cho phép kết xuất báo cáo dữ liệu sạch (File CSV/Excel UTF-8).")
-        col_ex1, col_ex2 = st.columns(2)
-        with col_ex1:
-            csv_p = filtered_prod.to_csv(index=False).encode('utf-8-sig')
-            st.download_button(
-                label="📥 Tải Báo Cáo Danh Sách Sản Phẩm (CSV)",
-                data=csv_p,
-                file_name=f"cocoon_products_report_{selected_channel.lower()}.csv",
-                mime="text/csv"
-            )
-        with col_ex2:
-            csv_r = filtered_rev.to_csv(index=False).encode('utf-8-sig')
-            st.download_button(
-                label="📥 Tải Báo Cáo Reviews Chi Tiết (CSV)",
-                data=csv_r,
-                file_name=f"cocoon_reviews_report_{selected_channel.lower()}.csv",
-                mime="text/csv"
-            )
-    else:
-        st.warning("🔒 **QUYỀN USER (CHỈ XEM):** Hãy đăng nhập tài khoản Admin để tải file CSV.")
-
-# =========================================================
-# TAB 4: POWER BI EMBEDDED
-# =========================================================
-with tab4:
-    st.markdown("##### 🖥️ Báo Cáo Trực Quan Hoá Power BI Analytics Embedded")
-    powerbi_url = "https://app.powerbi.com/view?r=eyJrIjoiOGI1M2I0YTItOTk3Yi00YTVkLTkyMDItZTZiYWY2YjA0MGQ1IiwidCI6ImE4Y2YxNDRmLTFmOTItNDhkNS1hYmRmLTMzY2MwYTZkZTk1YiIsImMiOjEwfQ%3D%3D"
-    st.components.v1.iframe(powerbi_url, height=680, scrolling=True)
+            <h6 style="color: #16a3
