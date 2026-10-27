@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# 2. BỘ CSS NỀN MÀU DA (COCOON WARM SKIN-TONE) & CHỮ ĐEN ĐẬM SẮC NÉT
+# 2. BỘ CSS CHUẨN NỀN MÀU DA COCOON & CHỮ ĐEN ĐẬM SẮC NÉT (SIÊU TƯƠNG PHẢN)
 # ---------------------------------------------------------
 st.markdown("""
 <style>
@@ -26,7 +26,7 @@ st.markdown("""
         font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
 
-    /* Nền màu da / Kem ấm áp đặc trưng Cocoon */
+    /* Nền màu da / Kem ấm áp đặc trưng thương hiệu Cocoon */
     .stApp {
         background-color: #FAF5E9 !important;
         color: #0F172A !important;
@@ -55,7 +55,7 @@ st.markdown("""
         border: 1px solid #3D2B20 !important;
     }
 
-    /* Header Banner */
+    /* Executive Header Banner */
     .executive-header {
         background: #FFFFFF;
         border: 1px solid #E2D9C8;
@@ -81,7 +81,7 @@ st.markdown("""
         font-weight: 600;
     }
 
-    /* METRIC CARDS FIX - SỬA TRIỆT ĐỂ CHỮ TIÊU ĐỀ MỜ / TRẮNG */
+    /* SỬA TRIỆT ĐỂ CHỮ TIÊU ĐỀ THẺ METRIC BỊ MỜ / TRẮNG TRÊN CHROME/EDGE */
     div[data-testid="stMetric"] {
         background: #FFFFFF !important;
         border: 1px solid #E2D9C8 !important;
@@ -89,57 +89,79 @@ st.markdown("""
         border-radius: 14px !important;
         box-shadow: 0 4px 12px rgba(24, 17, 12, 0.04) !important;
     }
-    div[data-testid="stMetricLabel"],
-    div[data-testid="stMetricLabel"] *,
+    [data-testid="stMetricLabel"],
+    [data-testid="stMetricLabel"] *,
+    div[data-testid="stMetricLabel"] label,
     div[data-testid="stMetricLabel"] p,
     div[data-testid="stMetricLabel"] span,
     div[data-testid="stMetricLabel"] div {
-        font-size: 13px !important;
-        color: #0F172A !important; /* CHỮ ĐEN ĐẬM SẮC NẾT 100% */
+        color: #0F172A !important;
+        -webkit-text-fill-color: #0F172A !important;
         opacity: 1 !important;
         text-transform: uppercase !important;
         letter-spacing: 0.5px !important;
         font-weight: 800 !important;
-    }
-    div[data-testid="stMetricValue"],
-    div[data-testid="stMetricValue"] *,
-    div[data-testid="stMetricValue"] div {
-        font-size: 26px !important;
-        font-weight: 800 !important;
-        color: #B8860B !important;
-        opacity: 1 !important;
+        font-size: 13px !important;
     }
 
-    /* TABS FIX - SỬA LỖI TÊN TAB BỊ MỜ TRẮNG */
+    /* METRIC VALUE - MÀU VÀNG ĐỒNG SANG TRỌNG */
+    [data-testid="stMetricValue"],
+    [data-testid="stMetricValue"] *,
+    div[data-testid="stMetricValue"] div,
+    div[data-testid="stMetricValue"] span {
+        color: #B8860B !important;
+        -webkit-text-fill-color: #B8860B !important;
+        opacity: 1 !important;
+        font-weight: 800 !important;
+        font-size: 26px !important;
+    }
+
+    /* METRIC DELTA - MÀU XANH LÁ NỔI BẬT */
+    [data-testid="stMetricDelta"],
+    [data-testid="stMetricDelta"] *,
+    div[data-testid="stMetricDelta"] svg,
+    div[data-testid="stMetricDelta"] div,
+    div[data-testid="stMetricDelta"] span {
+        color: #16A34A !important;
+        -webkit-text-fill-color: #16A34A !important;
+        opacity: 1 !important;
+        font-weight: 700 !important;
+    }
+
+    /* TABS FIX - SỬA LỖI TÊN TAB BỊ MỜ / MÀU TRẮNG TRONG STREAMLIT */
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
         border-bottom: 2px solid #E2D9C8;
         padding-bottom: 6px;
         margin-bottom: 20px;
     }
-    .stTabs [data-baseweb="tab"] {
+    button[data-baseweb="tab"] {
         background-color: #FFFFFF !important;
         border-radius: 10px !important;
         padding: 10px 24px !important;
         border: 1px solid #E2D9C8 !important;
         box-shadow: 0 2px 6px rgba(24, 17, 12, 0.03) !important;
     }
-    .stTabs [data-baseweb="tab"] *,
-    .stTabs [data-baseweb="tab"] p,
-    .stTabs [data-baseweb="tab"] span {
-        color: #0F172A !important; /* TAB CHƯA CHỌN: ĐEN ĐẬM */
+    button[data-baseweb="tab"] *,
+    button[data-baseweb="tab"] p,
+    button[data-baseweb="tab"] span,
+    button[data-baseweb="tab"] div {
+        color: #0F172A !important;
+        -webkit-text-fill-color: #0F172A !important;
         font-weight: 800 !important;
         font-size: 14px !important;
         opacity: 1 !important;
     }
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #B8860B 0%, #8B6508 100%) !important;
+    button[data-baseweb="tab"][aria-selected="true"] {
+        background: #B8860B !important;
         border-color: #B8860B !important;
     }
-    .stTabs [aria-selected="true"] *,
-    .stTabs [aria-selected="true"] p,
-    .stTabs [aria-selected="true"] span {
-        color: #FFFFFF !important; /* TAB ĐANG CHỌN: TRẮNG NỔI BẬT */
+    button[data-baseweb="tab"][aria-selected="true"] *,
+    button[data-baseweb="tab"][aria-selected="true"] p,
+    button[data-baseweb="tab"][aria-selected="true"] span,
+    button[data-baseweb="tab"][aria-selected="true"] div {
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
         font-weight: 800 !important;
         opacity: 1 !important;
     }
