@@ -81,7 +81,7 @@ st.markdown("""
         font-weight: 600;
     }
 
-    /* METRIC CARDS - TIÊU ĐỀ SẮC NÉT ĐEN ĐẬM 100% */
+    /* METRIC CARDS FIX - SỬA TRIỆT ĐỂ CHỮ TIÊU ĐỀ MỜ / TRẮNG */
     div[data-testid="stMetric"] {
         background: #FFFFFF !important;
         border: 1px solid #E2D9C8 !important;
@@ -91,21 +91,26 @@ st.markdown("""
     }
     div[data-testid="stMetricLabel"],
     div[data-testid="stMetricLabel"] *,
-    div[data-testid="stMetricLabel"] p {
+    div[data-testid="stMetricLabel"] p,
+    div[data-testid="stMetricLabel"] span,
+    div[data-testid="stMetricLabel"] div {
         font-size: 13px !important;
-        color: #0F172A !important; /* CHỮ ĐEN ĐẬM HOÀN TOÀN */
+        color: #0F172A !important; /* CHỮ ĐEN ĐẬM SẮC NẾT 100% */
+        opacity: 1 !important;
         text-transform: uppercase !important;
         letter-spacing: 0.5px !important;
         font-weight: 800 !important;
     }
     div[data-testid="stMetricValue"],
-    div[data-testid="stMetricValue"] * {
+    div[data-testid="stMetricValue"] *,
+    div[data-testid="stMetricValue"] div {
         font-size: 26px !important;
         font-weight: 800 !important;
         color: #B8860B !important;
+        opacity: 1 !important;
     }
 
-    /* TABS - CHỮ ĐẬM RÕ NÉT CẢ ĐANG CHỌN & CHƯA CHỌN */
+    /* TABS FIX - SỬA LỖI TÊN TAB BỊ MỜ TRẮNG */
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
         border-bottom: 2px solid #E2D9C8;
@@ -120,19 +125,23 @@ st.markdown("""
         box-shadow: 0 2px 6px rgba(24, 17, 12, 0.03) !important;
     }
     .stTabs [data-baseweb="tab"] *,
-    .stTabs [data-baseweb="tab"] p {
-        color: #1E293B !important;
-        font-weight: 700 !important;
+    .stTabs [data-baseweb="tab"] p,
+    .stTabs [data-baseweb="tab"] span {
+        color: #0F172A !important; /* TAB CHƯA CHỌN: ĐEN ĐẬM */
+        font-weight: 800 !important;
         font-size: 14px !important;
+        opacity: 1 !important;
     }
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, #B8860B 0%, #8B6508 100%) !important;
         border-color: #B8860B !important;
     }
     .stTabs [aria-selected="true"] *,
-    .stTabs [aria-selected="true"] p {
-        color: #FFFFFF !important;
+    .stTabs [aria-selected="true"] p,
+    .stTabs [aria-selected="true"] span {
+        color: #FFFFFF !important; /* TAB ĐANG CHỌN: TRẮNG NỔI BẬT */
         font-weight: 800 !important;
+        opacity: 1 !important;
     }
 
     /* CONTENT BOXES */
@@ -347,7 +356,7 @@ with tab1:
 
     m1, m2, m3, m4 = st.columns(4)
     with m1:
-        st.metric("TỔNG DOANH THU (30 NÀY)", fmt_currency(total_rev), delta="+14.2% MoM")
+        st.metric("TỔNG DOANH THU (30 NGÀY)", fmt_currency(total_rev), delta="+14.2% MoM")
     with m2:
         st.metric("TỔNG SẢN LƯỢNG BÁN", fmt_volume(total_vol), delta="+8.5% MoM")
     with m3:
@@ -380,7 +389,6 @@ with tab1:
                 color='Nguồn',
                 color_discrete_map={'Shopee': '#EE4D2D', 'Hasaki': '#008A00'}
             )
-            # CẤU HÌNH MÀU CHỮ TRÊN BIỂU ĐỒ SANG ĐEN ĐẬM
             fig_top10.update_layout(
                 template="plotly_white",
                 paper_bgcolor='rgba(0,0,0,0)',
@@ -390,14 +398,14 @@ with tab1:
                 margin=dict(l=10, r=10, t=20, b=20),
                 xaxis=dict(
                     title="Doanh thu (VNĐ)",
-                    tickfont=dict(color="#0F172A", size=11, fontweight="bold"),
-                    titlefont=dict(color="#0F172A", size=12, fontweight="bold")
+                    tickfont=dict(color="#0F172A", size=11),
+                    titlefont=dict(color="#0F172A", size=12)
                 ),
                 yaxis=dict(
                     title="",
-                    tickfont=dict(color="#0F172A", size=11, fontweight="bold")
+                    tickfont=dict(color="#0F172A", size=11)
                 ),
-                legend=dict(font=dict(color="#0F172A", fontweight="bold"))
+                legend=dict(font=dict(color="#0F172A"))
             )
             st.plotly_chart(fig_top10, use_container_width=True)
 
@@ -416,9 +424,9 @@ with tab1:
                 font=dict(color="#0F172A", size=12, family="Plus Jakarta Sans"),
                 height=420,
                 margin=dict(l=10, r=10, t=20, b=20),
-                legend=dict(font=dict(color="#0F172A", fontweight="bold"))
+                legend=dict(font=dict(color="#0F172A"))
             )
-            fig_donut.update_traces(textfont=dict(color="#0F172A", fontweight="bold"))
+            fig_donut.update_traces(textfont=dict(color="#0F172A"))
             st.plotly_chart(fig_donut, use_container_width=True)
 
     st.markdown("---")
@@ -443,10 +451,10 @@ with tab1:
                 font=dict(color="#0F172A", size=12),
                 height=320,
                 showlegend=False,
-                xaxis=dict(tickfont=dict(color="#0F172A", fontweight="bold")),
-                yaxis=dict(title="Doanh thu (VNĐ)", tickfont=dict(color="#0F172A", fontweight="bold"))
+                xaxis=dict(tickfont=dict(color="#0F172A")),
+                yaxis=dict(title="Doanh thu (VNĐ)", tickfont=dict(color="#0F172A"))
             )
-            fig_compare.update_traces(textfont=dict(color="#0F172A", fontweight="bold"))
+            fig_compare.update_traces(textfont=dict(color="#0F172A"))
             st.plotly_chart(fig_compare, use_container_width=True)
 
     with c4:
@@ -462,8 +470,8 @@ with tab1:
                 plot_bgcolor='rgba(0,0,0,0)',
                 font=dict(color="#0F172A", size=12),
                 height=320,
-                yaxis=dict(title="Số lượng SKU", tickfont=dict(color="#0F172A", fontweight="bold")),
-                xaxis=dict(title="Giá bán (VNĐ)", tickfont=dict(color="#0F172A", fontweight="bold"))
+                yaxis=dict(title="Số lượng SKU", tickfont=dict(color="#0F172A")),
+                xaxis=dict(title="Giá bán (VNĐ)", tickfont=dict(color="#0F172A"))
             )
             st.plotly_chart(fig_hist, use_container_width=True)
 
@@ -505,9 +513,9 @@ with tab2:
                 plot_bgcolor='rgba(0,0,0,0)',
                 font=dict(color="#0F172A", size=12),
                 height=350,
-                legend=dict(font=dict(color="#0F172A", fontweight="bold"))
+                legend=dict(font=dict(color="#0F172A"))
             )
-            fig_sent.update_traces(textfont=dict(color="#0F172A", fontweight="bold"))
+            fig_sent.update_traces(textfont=dict(color="#0F172A"))
             st.plotly_chart(fig_sent, use_container_width=True)
 
     with sc2:
@@ -526,10 +534,10 @@ with tab2:
                 plot_bgcolor='rgba(0,0,0,0)',
                 font=dict(color="#0F172A", size=12),
                 height=350,
-                yaxis=dict(title="Lượt Review", tickfont=dict(color="#0F172A", fontweight="bold")),
-                xaxis=dict(tickfont=dict(color="#0F172A", fontweight="bold"))
+                yaxis=dict(title="Lượt Review", tickfont=dict(color="#0F172A")),
+                xaxis=dict(tickfont=dict(color="#0F172A"))
             )
-            fig_star.update_traces(textfont=dict(color="#0F172A", fontweight="bold"))
+            fig_star.update_traces(textfont=dict(color="#0F172A"))
             st.plotly_chart(fig_star, use_container_width=True)
 
     st.markdown("---")
