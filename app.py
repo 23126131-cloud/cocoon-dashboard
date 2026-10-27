@@ -44,8 +44,8 @@ st.markdown("""
     div[data-testid="stSidebar"] .stSlider label,
     div[data-testid="stSidebar"] .stTextInput label {
         color: #cbd5e1 !important;
-        font-weight: 600;
-        font-size: 13px;
+        font-weight: 700 !important;
+        font-size: 13px !important;
     }
     div[data-testid="stSidebar"] input, 
     div[data-testid="stSidebar"] div[data-baseweb="select"] {
@@ -79,10 +79,10 @@ st.markdown("""
         color: #475569 !important;
         font-size: 13.5px !important;
         margin-top: 5px !important;
-        font-weight: 500;
+        font-weight: 600;
     }
 
-    /* METRIC CARDS FIX - TỐI ƯU HIỂN THỊ CHỮ TÊN CHỈ SỐ RÕ NÉT 100% */
+    /* METRIC CARDS FIX - TỐI ƯU HIỂN THỊ CHỮ TÊN CHỈ SỐ RÕ NÉT 100% ĐEN ĐẬM */
     div[data-testid="stMetric"] {
         background: #ffffff !important;
         border: 1px solid #cbd5e1 !important;
@@ -514,4 +514,15 @@ with tab2:
     with k1:
         st.markdown("""
         <div class="content-box" style="border-left: 5px solid #16a34a;">
-            <h6 style="color: #16a3
+            <h6 style="color: #16a34a; font-weight: 800; margin-bottom: 8px;">💚 TOP ĐIỂM ĐƯỢC KHEN NGỢI NHIỀU NHẤT</h6>
+            <ul style="color: #334155; font-size: 13px; margin-bottom: 0;">
+                <li><b>Mùi hương tự nhiên:</b> Mùi cà phê Đắk Lắk, bưởi, bí đao tự nhiên, không bị nồng hóa chất.</li>
+                <li><b>Hiệu quả da:</b> Dưỡng ẩm mềm mịn, hạt tẩy tế bào chết mịn không làm rát da.</li>
+                <li><b>Đóng gói & Giao hàng:</b> Bao bì chỉn chu, thiết kế sang trọng, bọc chống sốc cẩn thận.</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    with k2:
+        st.markdown("""
+        <div class="content-box" style="border-left: 5px solid #dc2626;">
+            <h6 style="color: #dc2
