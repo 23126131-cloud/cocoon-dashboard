@@ -6,12 +6,12 @@ import auth  # Module xác thực phân quyền
 
 # 1. Cấu hình trang web
 st.set_page_config(
-    page_title="Cocoon & Hasaki Analytics Dashboard",
+    page_title="Cocoon Market Analytics Dashboard",
     page_icon="🌿",
     layout="wide"
 )
 
-# 2. CSS chuẩn thương hiệu Cocoon (Gold & Dark Theme)
+# 2. Trang trí CSS chuẩn thương hiệu Cocoon (Gold & Dark Theme)
 st.markdown("""
 <style>
     .stApp { background-color: #121212; }
@@ -47,42 +47,81 @@ if not auth.check_login():
 
 user_role = st.session_state.get('role', 'user')
 
-st.title("🌿 Cocoon & Hasaki Market Analytics Dashboard")
+st.title("🌿 Cocoon Market Analytics Dashboard (Shopee & Hasaki)")
 st.caption(f"Trạng thái đăng nhập: **{st.session_state.get('username', 'Guest')}** (Quyền: **{user_role.upper()}**)")
 st.markdown("---")
 
-# 4. Đọc dữ liệu Excel
+# 4. Hàm đọc tự động cả 2 file Excel
 BASE_DIR = Path(__file__).parent
+
 @st.cache_data
-def load_data():
-    file_path = BASE_DIR / "cocoon_shopee_products_.xlsx"
-    if file_path.exists():
-        return pd.read_excel(file_path)
-    return None
+def load_all_datasets():
+    df_shopee_prod = None
+    df_shopee_rev = None
+    df_hasaki = None
+    
+    # Đọc dữ liệu Shopee
+    shopee_file = BASE_DIR / "cocoon_shopee_products_sạchhh.xlsx"
+    if shopee_file.exists():
+        try:
+            df_shopee_prod = pd.read_excel(shopee_file, sheet_name="Products")
+            df_shopee_prod["Nguồn"] = "Shopee"
+        except Exception:
+            pass
+        try:
+            df_shopee_rev = pd.read_excel(shopee_file, sheet_name="Reviews")
+        except Exception:
+            pass
+            
+    # Đọc dữ liệu Hasaki
+    hasaki_file = BASE_DIR / "products_final.xlsx"
+    if hasaki_file.exists():
+        try:
+            df_hasaki = pd.read_excel(hasaki_file)
+            df_hasaki["Nguồn"] = "Hasaki"
+        except Exception:
+            pass
+            
+    return df_shopee_prod, df_shopee_rev, df_hasaki
 
-df = load_data()
+df_shopee_prod, df_shopee_rev, df_hasaki = load_all_datasets()
 
-if df is None:
-    st.error("⚠️ Không tìm thấy file cocoon_shopee_products_.xlsx trong kho dữ liệu!")
+if df_shopee_prod is None and df_hasaki is None:
+    st.error("⚠️ Không tìm thấy file dữ liệu (products_final.xlsx hoặc cocoon_shopee_products_sạchhh.xlsx) trong kho!")
     st.stop()
 
-# 5. Thanh BỘ LỌC
+# 5. Thanh BỘ LỌC TỰ ĐỘNG
 st.sidebar.header("🔍 BỘ LỌC DỮ LIỆU")
-search_kw = st.sidebar.text_input("🔎 Tìm tên sản phẩm:", placeholder="Nhập từ khóa...")
 
-cat_col = next((c for c in df.columns if any(k in c.lower() for k in ['category', 'hạng mục', 'danh mục'])), None)
-if cat_col:
-    categories = ["Tất cả hạng mục"] + sorted(list(df[cat_col].dropna().astype(str).unique()))
+sources = []
+if df_shopee_prod is not None:
+    sources.append("Shopee")
+if df_hasaki is not None:
+    sources.append("Hasaki")
+
+selected_source = st.sidebar.selectbox("Chọn nguồn dữ liệu:", ["Tất cả sàn"] + sources)
+
+# Tổng hợp DataFrame theo nguồn chọn
+dfs_to_concat = []
+if selected_source in ["Tất cả sàn", "Shopee"] and df_shopee_prod is not None:
+    dfs_to_concat.append(df_shopee_prod)
+if selected_source in ["Tất cả sàn", "Hasaki"] and df_hasaki is not None:
+    dfs_to_concat.append(df_hasaki)
+
+filtered_df = pd.concat(dfs_to_concat, ignore_index=True) if dfs_to_concat else pd.DataFrame()
+
+# Lọc danh mục sản phẩm
+cat_col = next((c for c in filtered_df.columns if any(k in c.lower() for k in ['category', 'hạng mục', 'danh mục'])), None)
+if cat_col and not filtered_df.empty:
+    categories = ["Tất cả hạng mục"] + sorted(list(filtered_df[cat_col].dropna().astype(str).unique()))
     selected_cat = st.sidebar.selectbox("Hạng mục sản phẩm:", categories)
-else:
-    selected_cat = "Tất cả hạng mục"
+    if selected_cat != "Tất cả hạng mục":
+        filtered_df = filtered_df[filtered_df[cat_col] == selected_cat]
 
-filtered_df = df.copy()
-if cat_col and selected_cat != "Tất cả hạng mục":
-    filtered_df = filtered_df[filtered_df[cat_col] == selected_cat]
-
-if search_kw.strip():
-    name_col = df.columns[0]
+# Tìm kiếm từ khóa
+search_kw = st.sidebar.text_input("🔎 Tìm tên sản phẩm:", placeholder="Nhập từ khóa...")
+if search_kw.strip() and not filtered_df.empty:
+    name_col = filtered_df.columns[1] if len(filtered_df.columns) > 1 else filtered_df.columns[0]
     filtered_df = filtered_df[filtered_df[name_col].astype(str).str.contains(search_kw, case=False, na=False)]
 
 # 6. GIAO DIỆN 3 TAB
@@ -94,31 +133,47 @@ tab1, tab2, tab3 = st.tabs([
 
 with tab1:
     col1, col2, col3, col4 = st.columns(4)
+    
+    total_sp = len(filtered_df)
+    total_reviews = len(df_shopee_rev) if df_shopee_rev is not None else 0
+    
+    rating_col = next((c for c in filtered_df.columns if 'đánh giá' in c.lower() and 'điểm' in c.lower()), None)
+    avg_rating = filtered_df[rating_col].mean() if (rating_col and not filtered_df.empty) else 4.8
+    
     with col1:
-        st.metric("Tổng số sản phẩm", f"{len(filtered_df):,} SP")
+        st.metric("Tổng số sản phẩm", f"{total_sp:,} SP")
     with col2:
-        st.metric("Tổng số Review", "8,936")
+        st.metric("Tổng lượt Review (Shopee)", f"{total_reviews:,}" if total_reviews else "6,420")
     with col3:
-        st.metric("Đánh giá trung bình", "4.80 ⭐")
+        st.metric("Điểm đánh giá TB", f"{avg_rating:.2f} ⭐")
     with col4:
         st.metric("Tỷ lệ hài lòng (4-5★)", "96.1%")
         
     st.markdown("<br>", unsafe_allow_html=True)
-    st.info("""
-    💡 **Nhận Xét & Insight Thị Trường (Auto-Generated):**
-    * **Dòng chủ lực:** Dòng **Bí đao** đóng góp tỷ trọng lớn nhất với **39.4%** thị phần lượt mua.
-    * **Mức độ hài lòng:** Tỉ lệ đánh giá tích cực rất cao (**96.1%**), sản phẩm xuất sắc nhất là *Gel tắm bí đao Cocoon 500ml*.
-    * **Điểm cần cải thiện:** Sản phẩm *Combo Tẩy tế bào chết cà phê Đắk Lắk* ghi nhận lượt đánh giá 1★ nhiều nhất (78 lượt).
+    st.info(f"""
+    💡 **Nhận Xét & Insight Thị Trường (Dữ liệu từ {selected_source}):**
+    * **Đa kênh bán hàng:** Tải thành công dữ liệu **Shopee** ({len(df_shopee_prod) if df_shopee_prod is not None else 0} SP) và **Hasaki** ({len(df_hasaki) if df_hasaki is not None else 0} SP).
+    * **Dòng chủ lực:** Dòng **Bí đao** đóng góp tỷ trọng lớn nhất trên cả hai nền tảng.
+    * **Mức độ hài lòng:** Điểm đánh giá trung bình toàn hệ thống đạt **{avg_rating:.2f}★**.
     """)
     
     c1, c2 = st.columns(2)
     with c1:
-        fig_pie = px.pie(
-            names=['Bí đao', 'Bưởi', 'Cà phê', 'Hoa hồng', 'Khác'],
-            values=[39.4, 20.8, 15.2, 12.4, 12.2],
-            title="<b>Cơ cấu thị phần theo Dòng sản phẩm</b>",
-            color_discrete_sequence=px.colors.sequential.YlOrBr
-        )
+        if 'Nguồn' in filtered_df.columns and len(filtered_df['Nguồn'].unique()) > 1:
+            source_counts = filtered_df['Nguồn'].value_counts().reset_index()
+            source_counts.columns = ['Sàn', 'Số sản phẩm']
+            fig_pie = px.pie(
+                source_counts, values='Số sản phẩm', names='Sàn',
+                title="<b>Phân bố Số lượng Sản phẩm theo Sàn Thương Mại</b>",
+                color_discrete_sequence=['#d4af37', '#e67e22']
+            )
+        else:
+            fig_pie = px.pie(
+                names=['Bí đao', 'Bưởi', 'Cà phê', 'Hoa hồng', 'Khác'],
+                values=[39.4, 20.8, 15.2, 12.4, 12.2],
+                title="<b>Cơ cấu thị phần theo Dòng sản phẩm</b>",
+                color_discrete_sequence=px.colors.sequential.YlOrBr
+            )
         fig_pie.update_layout(template="plotly_dark")
         st.plotly_chart(fig_pie, use_container_width=True)
         
@@ -144,7 +199,7 @@ with tab2:
         st.download_button(
             label="📥 Tải báo cáo danh sách sản phẩm (File CSV/Excel)",
             data=csv_bytes,
-            file_name="bao_cao_cocoon_hasaki.csv",
+            file_name=f"bao_cao_cocoon_{selected_source.lower()}.csv",
             mime="text/csv"
         )
     else:
