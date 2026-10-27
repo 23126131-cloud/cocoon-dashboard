@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# 2. BỘ CSS BẢN SÁNG ĐỘ TƯƠNG PHẢN CAO (EXECUTIVE LIGHT MODE)
+# 2. BỘ CSS NỀN MÀU DA (COCOON WARM SKIN-TONE) & CHỮ ĐEN ĐẬM SẮC NÉT
 # ---------------------------------------------------------
 st.markdown("""
 <style>
@@ -26,50 +26,49 @@ st.markdown("""
         font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
 
-    /* Force Light Background */
+    /* Nền màu da / Kem ấm áp đặc trưng Cocoon */
     .stApp {
-        background-color: #f8fafc !important;
-        color: #0f172a !important;
+        background-color: #FAF5E9 !important;
+        color: #0F172A !important;
     }
 
-    /* Sidebar - Dark Navy Style */
+    /* Sidebar Dark Executive Style */
     div[data-testid="stSidebar"] {
-        background-color: #0f172a !important;
-        border-right: 1px solid #1e293b;
+        background-color: #18110C !important;
+        border-right: 1px solid #2D2018;
     }
     div[data-testid="stSidebar"] * {
-        color: #f8fafc !important;
+        color: #F8FAFC !important;
     }
     div[data-testid="stSidebar"] .stSelectbox label, 
     div[data-testid="stSidebar"] .stSlider label,
     div[data-testid="stSidebar"] .stTextInput label {
-        color: #cbd5e1 !important;
+        color: #E2E8F0 !important;
         font-weight: 700 !important;
         font-size: 13px !important;
     }
     div[data-testid="stSidebar"] input, 
     div[data-testid="stSidebar"] div[data-baseweb="select"] {
-        background-color: #1e293b !important;
+        background-color: #261B14 !important;
         color: #ffffff !important;
         border-radius: 8px !important;
-        border: 1px solid #334155 !important;
+        border: 1px solid #3D2B20 !important;
     }
 
-    /* Executive Header Banner */
+    /* Header Banner */
     .executive-header {
-        background: #ffffff;
-        border: 1px solid #cbd5e1;
-        border-left: 6px solid #d4af37;
+        background: #FFFFFF;
+        border: 1px solid #E2D9C8;
+        border-left: 6px solid #B8860B;
         padding: 22px 28px;
         border-radius: 14px;
         margin-bottom: 22px;
-        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        box-shadow: 0 4px 15px rgba(24, 17, 12, 0.05);
     }
     .executive-title {
-        color: #0f172a !important;
+        color: #0F172A !important;
         font-size: 24px !important;
         font-weight: 800 !important;
-        letter-spacing: -0.5px;
         margin: 0;
         display: flex;
         align-items: center;
@@ -82,19 +81,19 @@ st.markdown("""
         font-weight: 600;
     }
 
-    /* METRIC CARDS - TỐI ƯU HIỂN THỊ CHỮ TÊN CHỈ SỐ ĐEN ĐẬM 100% */
+    /* METRIC CARDS - TIÊU ĐỀ SẮC NÉT ĐEN ĐẬM 100% */
     div[data-testid="stMetric"] {
-        background: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
+        background: #FFFFFF !important;
+        border: 1px solid #E2D9C8 !important;
         padding: 18px 20px !important;
         border-radius: 14px !important;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+        box-shadow: 0 4px 12px rgba(24, 17, 12, 0.04) !important;
     }
     div[data-testid="stMetricLabel"],
     div[data-testid="stMetricLabel"] *,
     div[data-testid="stMetricLabel"] p {
         font-size: 13px !important;
-        color: #0f172a !important;
+        color: #0F172A !important; /* CHỮ ĐEN ĐẬM HOÀN TOÀN */
         text-transform: uppercase !important;
         letter-spacing: 0.5px !important;
         font-weight: 800 !important;
@@ -103,54 +102,54 @@ st.markdown("""
     div[data-testid="stMetricValue"] * {
         font-size: 26px !important;
         font-weight: 800 !important;
-        color: #b8860b !important;
+        color: #B8860B !important;
     }
 
-    /* TABS - MÀU CHỮ RÕ NÉT CẢ TAB ĐANG CHỌN & CHƯA CHỌN */
+    /* TABS - CHỮ ĐẬM RÕ NÉT CẢ ĐANG CHỌN & CHƯA CHỌN */
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
-        border-bottom: 2px solid #cbd5e1;
+        border-bottom: 2px solid #E2D9C8;
         padding-bottom: 6px;
         margin-bottom: 20px;
     }
     .stTabs [data-baseweb="tab"] {
-        background-color: #ffffff !important;
+        background-color: #FFFFFF !important;
         border-radius: 10px !important;
         padding: 10px 24px !important;
-        border: 1px solid #cbd5e1 !important;
-        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03) !important;
+        border: 1px solid #E2D9C8 !important;
+        box-shadow: 0 2px 6px rgba(24, 17, 12, 0.03) !important;
     }
     .stTabs [data-baseweb="tab"] *,
     .stTabs [data-baseweb="tab"] p {
-        color: #1e293b !important;
+        color: #1E293B !important;
         font-weight: 700 !important;
         font-size: 14px !important;
     }
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%) !important;
-        border-color: #d4af37 !important;
+        background: linear-gradient(135deg, #B8860B 0%, #8B6508 100%) !important;
+        border-color: #B8860B !important;
     }
     .stTabs [aria-selected="true"] *,
     .stTabs [aria-selected="true"] p {
-        color: #ffffff !important;
+        color: #FFFFFF !important;
         font-weight: 800 !important;
     }
 
     /* CONTENT BOXES */
     .content-box {
-        background: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
+        background: #FFFFFF !important;
+        border: 1px solid #E2D9C8 !important;
         border-radius: 14px !important;
         padding: 22px !important;
         margin-bottom: 20px !important;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03) !important;
-        color: #0f172a !important;
+        box-shadow: 0 4px 12px rgba(24, 17, 12, 0.03) !important;
+        color: #0F172A !important;
     }
     
     .badge-admin {
-        background-color: #fef3c7;
-        color: #92400e;
-        border: 1px solid #fcd34d;
+        background-color: #FEF3C7;
+        color: #92400E;
+        border: 1px solid #FCD34D;
         padding: 4px 12px;
         border-radius: 12px;
         font-size: 11.5px;
@@ -360,9 +359,9 @@ with tab1:
 
     # Executive Summary Box
     st.markdown(f"""
-    <div class="content-box" style="border-left: 5px solid #d4af37;">
-        <h5 style="color: #0f172a; font-weight: 800; margin-bottom: 8px;">📊 BÁO CÁO TÓM TẮT HIỆU NĂNG THƯƠNG MẠI ({selected_channel.upper()})</h5>
-        <ul style="color: #334155; font-size: 13.5px; margin-bottom: 0;">
+    <div class="content-box" style="border-left: 5px solid #B8860B;">
+        <h5 style="color: #0F172A; font-weight: 800; margin-bottom: 8px;">📊 BÁO CÁO TÓM TẮT HIỆU NĂNG THƯƠNG MẠI ({selected_channel.upper()})</h5>
+        <ul style="color: #1E293B; font-size: 13.5px; margin-bottom: 0; line-height: 1.6;">
             <li><b>Kênh đóng góp chính:</b> Sàn <b>Shopee</b> chiếm ưu thế vượt trội về sản lượng tiêu thụ dòng Tẩy tế bào chết Cà phê Đắk Lắk.</li>
             <li><b>Doanh số tổng hợp:</b> Đạt mốc <b>{fmt_currency(total_rev)}</b> với tổng số <b>{fmt_volume(total_vol)}</b> được giao thành công trong 30 ngày.</li>
             <li><b>Dòng chủ lực:</b> Danh mục <b>Chăm sóc da mặt & Tẩy tế bào chết</b> tạo ra hơn 60% tổng doanh thu thương hiệu.</li>
@@ -372,49 +371,60 @@ with tab1:
 
     c1, c2 = st.columns([6, 4])
     with c1:
-        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>🏆 Top 10 Sản Phẩm Có Doanh Thu Cao Nhất</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='color:#0F172A; font-weight:800;'>🏆 Top 10 Sản Phẩm Có Doanh Thu Cao Nhất</h5>", unsafe_allow_html=True)
         if not filtered_prod.empty and 'Doanh thu 30 ngày' in filtered_prod.columns:
             top_10 = filtered_prod.nlargest(10, 'Doanh thu 30 ngày').sort_values('Doanh thu 30 ngày', ascending=True)
             fig_top10 = px.bar(
                 top_10, y='Tên sản phẩm', x='Doanh thu 30 ngày',
                 orientation='h',
                 color='Nguồn',
-                color_discrete_map={'Shopee': '#ee4d2d', 'Hasaki': '#008a00'}
+                color_discrete_map={'Shopee': '#EE4D2D', 'Hasaki': '#008A00'}
             )
+            # CẤU HÌNH MÀU CHỮ TRÊN BIỂU ĐỒ SANG ĐEN ĐẬM
             fig_top10.update_layout(
                 template="plotly_white",
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(color="#0f172a"),
+                font=dict(color="#0F172A", size=12, family="Plus Jakarta Sans"),
                 height=420,
                 margin=dict(l=10, r=10, t=20, b=20),
-                xaxis_title="Doanh thu (VNĐ)",
-                yaxis_title=""
+                xaxis=dict(
+                    title="Doanh thu (VNĐ)",
+                    tickfont=dict(color="#0F172A", size=11, fontweight="bold"),
+                    titlefont=dict(color="#0F172A", size=12, fontweight="bold")
+                ),
+                yaxis=dict(
+                    title="",
+                    tickfont=dict(color="#0F172A", size=11, fontweight="bold")
+                ),
+                legend=dict(font=dict(color="#0F172A", fontweight="bold"))
             )
             st.plotly_chart(fig_top10, use_container_width=True)
 
     with c2:
-        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>📊 Cơ Cấu Doanh Thu Theo Danh Mục</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='color:#0F172A; font-weight:800;'>📊 Cơ Cấu Doanh Thu Theo Danh Mục</h5>", unsafe_allow_html=True)
         if cat_col and not filtered_prod.empty:
             cat_df = filtered_prod.groupby(cat_col)['Doanh thu 30 ngày'].sum().reset_index()
             fig_donut = px.pie(
                 cat_df, values='Doanh thu 30 ngày', names=cat_col, hole=0.55,
-                color_discrete_sequence=['#d4af37', '#e67e22', '#16a34a', '#0284c7', '#9333ea']
+                color_discrete_sequence=['#B8860B', '#E67E22', '#16A34A', '#0284C7', '#9333EA']
             )
             fig_donut.update_layout(
                 template="plotly_white",
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(color="#0f172a"),
+                font=dict(color="#0F172A", size=12, family="Plus Jakarta Sans"),
                 height=420,
-                margin=dict(l=10, r=10, t=20, b=20)
+                margin=dict(l=10, r=10, t=20, b=20),
+                legend=dict(font=dict(color="#0F172A", fontweight="bold"))
             )
+            fig_donut.update_traces(textfont=dict(color="#0F172A", fontweight="bold"))
             st.plotly_chart(fig_donut, use_container_width=True)
 
     st.markdown("---")
     c3, c4 = st.columns(2)
     with c3:
-        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>⚖️ So Sánh Doanh Thu Theo Kênh Bán</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='color:#0F172A; font-weight:800;'>⚖️ So Sánh Doanh Thu Theo Kênh Bán</h5>", unsafe_allow_html=True)
         if 'Nguồn' in df_prod.columns:
             channel_df = df_prod.groupby('Nguồn').agg(
                 Doanh_Thu=('Doanh thu 30 ngày', 'sum'),
@@ -423,35 +433,37 @@ with tab1:
             fig_compare = px.bar(
                 channel_df, x='Nguồn', y='Doanh_Thu',
                 color='Nguồn',
-                color_discrete_map={'Shopee': '#ee4d2d', 'Hasaki': '#008a00'},
+                color_discrete_map={'Shopee': '#EE4D2D', 'Hasaki': '#008A00'},
                 text_auto='.2s'
             )
             fig_compare.update_layout(
                 template="plotly_white",
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(color="#0f172a"),
+                font=dict(color="#0F172A", size=12),
                 height=320,
                 showlegend=False,
-                yaxis_title="Doanh thu (VNĐ)"
+                xaxis=dict(tickfont=dict(color="#0F172A", fontweight="bold")),
+                yaxis=dict(title="Doanh thu (VNĐ)", tickfont=dict(color="#0F172A", fontweight="bold"))
             )
+            fig_compare.update_traces(textfont=dict(color="#0F172A", fontweight="bold"))
             st.plotly_chart(fig_compare, use_container_width=True)
 
     with c4:
-        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>🏷️ Phân Bố Mức Giá Bán Sản Phẩm</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='color:#0F172A; font-weight:800;'>🏷️ Phân Bố Mức Giá Bán Sản Phẩm</h5>", unsafe_allow_html=True)
         if 'Giá bán' in filtered_prod.columns:
             fig_hist = px.histogram(
                 filtered_prod, x='Giá bán', nbins=15,
-                color_discrete_sequence=['#b8860b']
+                color_discrete_sequence=['#B8860B']
             )
             fig_hist.update_layout(
                 template="plotly_white",
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(color="#0f172a"),
+                font=dict(color="#0F172A", size=12),
                 height=320,
-                yaxis_title="Số lượng SKU",
-                xaxis_title="Giá bán (VNĐ)"
+                yaxis=dict(title="Số lượng SKU", tickfont=dict(color="#0F172A", fontweight="bold")),
+                xaxis=dict(title="Giá bán (VNĐ)", tickfont=dict(color="#0F172A", fontweight="bold"))
             )
             st.plotly_chart(fig_hist, use_container_width=True)
 
@@ -478,52 +490,56 @@ with tab2:
 
     sc1, sc2 = st.columns(2)
     with sc1:
-        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>🟢 Phân Bố Cảm Xúc Phản Hồi (Sentiment Index)</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='color:#0F172A; font-weight:800;'>🟢 Phân Bố Cảm Xúc Phản Hồi (Sentiment Index)</h5>", unsafe_allow_html=True)
         if 'Sentiment' in filtered_rev.columns and not filtered_rev.empty:
             s_df = filtered_rev['Sentiment'].value_counts().reset_index()
             s_df.columns = ['Sentiment', 'Count']
             fig_sent = px.pie(
                 s_df, values='Count', names='Sentiment', hole=0.5,
                 color='Sentiment',
-                color_discrete_map={'Tích cực': '#16a34a', 'Trung tính': '#eab308', 'Tiêu cực': '#dc2626'}
+                color_discrete_map={'Tích cực': '#16A34A', 'Trung tính': '#EAB308', 'Tiêu cực': '#DC2626'}
             )
             fig_sent.update_layout(
                 template="plotly_white",
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(color="#0f172a"),
-                height=350
+                font=dict(color="#0F172A", size=12),
+                height=350,
+                legend=dict(font=dict(color="#0F172A", fontweight="bold"))
             )
+            fig_sent.update_traces(textfont=dict(color="#0F172A", fontweight="bold"))
             st.plotly_chart(fig_sent, use_container_width=True)
 
     with sc2:
-        st.markdown("<h5 style='color:#0f172a; font-weight:700;'>⭐ Phân Bố Số Sao Đánh Giá (1★ - 5★)</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='color:#0F172A; font-weight:800;'>⭐ Phân Bố Số Sao Đánh Giá (1★ - 5★)</h5>", unsafe_allow_html=True)
         if 'Số sao (review)' in filtered_rev.columns and not filtered_rev.empty:
             star_df = pd.to_numeric(filtered_rev['Số sao (review)'], errors='coerce').value_counts().sort_index(ascending=False).reset_index()
             star_df.columns = ['Star', 'Count']
             star_df['Star'] = star_df['Star'].astype(str) + " ⭐"
             fig_star = px.bar(
                 star_df, x='Star', y='Count',
-                text_auto=True, color_discrete_sequence=['#d4af37']
+                text_auto=True, color_discrete_sequence=['#B8860B']
             )
             fig_star.update_layout(
                 template="plotly_white",
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(color="#0f172a"),
+                font=dict(color="#0F172A", size=12),
                 height=350,
-                yaxis_title="Lượt Review"
+                yaxis=dict(title="Lượt Review", tickfont=dict(color="#0F172A", fontweight="bold")),
+                xaxis=dict(tickfont=dict(color="#0F172A", fontweight="bold"))
             )
+            fig_star.update_traces(textfont=dict(color="#0F172A", fontweight="bold"))
             st.plotly_chart(fig_star, use_container_width=True)
 
     st.markdown("---")
-    st.markdown("<h5 style='color:#0f172a; font-weight:700;'>💡 Phân Tích Điểm Sáng Khen Ngợi & Điểm Cần Cải Thiện</h5>", unsafe_allow_html=True)
+    st.markdown("<h5 style='color:#0F172A; font-weight:800;'>💡 Phân Tích Điểm Sáng Khen Ngợi & Điểm Cần Cải Thiện</h5>", unsafe_allow_html=True)
     k1, k2 = st.columns(2)
     with k1:
         st.markdown("""
-        <div class="content-box" style="border-left: 5px solid #16a34a;">
-            <h6 style="color: #16a34a; font-weight: 800; margin-bottom: 8px;">💚 TOP ĐIỂM ĐƯỢC KHEN NGỢI NHIỀU NHẤT</h6>
-            <ul style="color: #334155; font-size: 13px; margin-bottom: 0;">
+        <div class="content-box" style="border-left: 5px solid #16A34A;">
+            <h6 style="color: #16A34A; font-weight: 800; margin-bottom: 8px;">💚 TOP ĐIỂM ĐƯỢC KHEN NGỢI NHIỀU NHẤT</h6>
+            <ul style="color: #1E293B; font-size: 13px; margin-bottom: 0; line-height: 1.6;">
                 <li><b>Mùi hương tự nhiên:</b> Mùi cà phê Đắk Lắk, bưởi, bí đao tự nhiên, không bị nồng hóa chất.</li>
                 <li><b>Hiệu quả da:</b> Dưỡng ẩm mềm mịn, hạt tẩy tế bào chết mịn không làm rát da.</li>
                 <li><b>Đóng gói & Giao hàng:</b> Bao bì chỉn chu, thiết kế sang trọng, bọc chống sốc cẩn thận.</li>
@@ -532,9 +548,9 @@ with tab2:
         """, unsafe_allow_html=True)
     with k2:
         st.markdown("""
-        <div class="content-box" style="border-left: 5px solid #dc2626;">
-            <h6 style="color: #dc2626; font-weight: 800; margin-bottom: 8px;">⚠️ TOP ĐIỂM CẦN CẢI THIỆN & LƯU Ý</h6>
-            <ul style="color: #334155; font-size: 13px; margin-bottom: 0;">
+        <div class="content-box" style="border-left: 5px solid #DC2626;">
+            <h6 style="color: #DC2626; font-weight: 800; margin-bottom: 8px;">⚠️ TOP ĐIỂM CẦN CẢI THIỆN & LƯU Ý</h6>
+            <ul style="color: #1E293B; font-size: 13px; margin-bottom: 0; line-height: 1.6;">
                 <li><b>Vận chuyển:</b> Thi thoảng bị rò rỉ dung dịch nhẹ ở phần nắp hũ khi ship xa.</li>
                 <li><b>Da nhạy cảm:</b> Hạt cà phê mỏng đôi khi vẫn hơi to đối với làn da mặt quá nhạy cảm.</li>
                 <li><b>Độ lưu hương:</b> Sản phẩm dưỡng tóc lưu hương ở mức vừa phải (3–4 tiếng).</li>
@@ -542,7 +558,7 @@ with tab2:
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<h5 style='color:#0f172a; font-weight:700;'>💬 Bảng Tra Cứu Review Chi Tiết Khách Hàng</h5>", unsafe_allow_html=True)
+    st.markdown("<h5 style='color:#0F172A; font-weight:800;'>💬 Bảng Tra Cứu Review Chi Tiết Khách Hàng</h5>", unsafe_allow_html=True)
     rev_display = [c for c in ['Mã SP', 'Nguồn', 'Số sao (review)', 'Sentiment', 'Nội dung review', 'Ngày review', 'Đã mua hàng'] if c in filtered_rev.columns]
     st.dataframe(filtered_rev[rev_display if rev_display else filtered_rev.columns], use_container_width=True, height=360)
 
@@ -550,7 +566,7 @@ with tab2:
 # TAB 3: DANH MỤC SẢN PHẨM & SKU MATRIX
 # =========================================================
 with tab3:
-    st.markdown("<h5 style='color:#0f172a; font-weight:700;'>📦 Bảng Matrix Quản Lý & Tra Cứu SKU Chi Tiết</h5>", unsafe_allow_html=True)
+    st.markdown("<h5 style='color:#0F172A; font-weight:800;'>📦 Bảng Matrix Quản Lý & Tra Cứu SKU Chi Tiết</h5>", unsafe_allow_html=True)
     
     prod_show_cols = [c for c in ['Mã SP', 'Nguồn', 'Tên sản phẩm', 'Category', 'Giá bán', 'Giá gốc', 'Lượt bán 30 ngày', 'Doanh thu 30 ngày', 'Điểm đánh giá TB', 'Link SP'] if c in filtered_prod.columns]
     
@@ -593,6 +609,6 @@ with tab3:
 # TAB 4: POWER BI EMBEDDED
 # =========================================================
 with tab4:
-    st.markdown("<h5 style='color:#0f172a; font-weight:700;'>🖥️ Báo Cáo Trực Quan Hoá Power BI Analytics Embedded</h5>", unsafe_allow_html=True)
+    st.markdown("<h5 style='color:#0F172A; font-weight:800;'>🖥️ Báo Cáo Trực Quan Hoá Power BI Analytics Embedded</h5>", unsafe_allow_html=True)
     powerbi_url = "https://app.powerbi.com/view?r=eyJrIjoiOGI1M2I0YTItOTk3Yi00YTVkLTkyMDItZTZiYWY2YjA0MGQ1IiwidCI6ImE4Y2YxNDRmLTFmOTItNDhkNS1hYmRmLTMzY2MwYTZkZTk1YiIsImMiOjEwfQ%3D%3D"
     st.components.v1.iframe(powerbi_url, height=680, scrolling=True)
