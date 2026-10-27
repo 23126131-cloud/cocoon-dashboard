@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# 2. BỘ CSS CHUẨN NỀN MÀU DA COCOON & CHỮ ĐEN ĐẬM SẮC NÉT (SIÊU TƯƠNG PHẢN)
+# 2. CSS TỐI ƯU NỀN MÀU DA COCOON & CHỮ ĐEN ĐẬM SẮC NẾT
 # ---------------------------------------------------------
 st.markdown("""
 <style>
@@ -81,7 +81,7 @@ st.markdown("""
         font-weight: 600;
     }
 
-    /* SỬA TRIỆT ĐỂ CHỮ TIÊU ĐỀ THẺ METRIC BỊ MỜ / TRẮNG TRÊN CHROME/EDGE */
+    /* ÉP MÀU CHỮ THẺ METRIC SANG ĐEN ĐẬM HOÀN TOÀN */
     div[data-testid="stMetric"] {
         background: #FFFFFF !important;
         border: 1px solid #E2D9C8 !important;
@@ -104,7 +104,7 @@ st.markdown("""
         font-size: 13px !important;
     }
 
-    /* METRIC VALUE - MÀU VÀNG ĐỒNG SANG TRỌNG */
+    /* METRIC VALUE - VÀNG ĐỒNG SANG TRỌNG */
     [data-testid="stMetricValue"],
     [data-testid="stMetricValue"] *,
     div[data-testid="stMetricValue"] div,
@@ -116,7 +116,7 @@ st.markdown("""
         font-size: 26px !important;
     }
 
-    /* METRIC DELTA - MÀU XANH LÁ NỔI BẬT */
+    /* METRIC DELTA - XANH LÁ NỔI BẬT */
     [data-testid="stMetricDelta"],
     [data-testid="stMetricDelta"] *,
     div[data-testid="stMetricDelta"] svg,
@@ -128,7 +128,7 @@ st.markdown("""
         font-weight: 700 !important;
     }
 
-    /* TABS FIX - SỬA LỖI TÊN TAB BỊ MỜ / MÀU TRẮNG TRONG STREAMLIT */
+    /* TABS STYLING - ĐEN ĐẬM SẮC NẾT */
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
         border-bottom: 2px solid #E2D9C8;
@@ -405,12 +405,17 @@ with tab1:
         st.markdown("<h5 style='color:#0F172A; font-weight:800;'>🏆 Top 10 Sản Phẩm Có Doanh Thu Cao Nhất</h5>", unsafe_allow_html=True)
         if not filtered_prod.empty and 'Doanh thu 30 ngày' in filtered_prod.columns:
             top_10 = filtered_prod.nlargest(10, 'Doanh thu 30 ngày').sort_values('Doanh thu 30 ngày', ascending=True)
+            
             fig_top10 = px.bar(
-                top_10, y='Tên sản phẩm', x='Doanh thu 30 ngày',
+                top_10, 
+                y='Tên sản phẩm', 
+                x='Doanh thu 30 ngày',
                 orientation='h',
-                color='Nguồn',
-                color_discrete_map={'Shopee': '#EE4D2D', 'Hasaki': '#008A00'}
+                color='Nguồn' if 'Nguồn' in top_10.columns else None,
+                color_discrete_map={'Shopee': '#EE4D2D', 'Hasaki': '#008A00'},
+                text_auto='.2s'
             )
+            
             fig_top10.update_layout(
                 template="plotly_white",
                 paper_bgcolor='rgba(0,0,0,0)',
@@ -421,15 +426,21 @@ with tab1:
                 xaxis=dict(
                     title="Doanh thu (VNĐ)",
                     tickfont=dict(color="#0F172A", size=11),
-                    titlefont=dict(color="#0F172A", size=12)
+                    title_font=dict(color="#0F172A", size=12)
                 ),
                 yaxis=dict(
                     title="",
                     tickfont=dict(color="#0F172A", size=11)
                 ),
-                legend=dict(font=dict(color="#0F172A"))
+                legend=dict(
+                    title="",
+                    font=dict(color="#0F172A", size=11)
+                )
             )
+            fig_top10.update_traces(textfont=dict(color="#0F172A"))
             st.plotly_chart(fig_top10, use_container_width=True)
+        else:
+            st.info("Không có dữ liệu cho Top 10.")
 
     with c2:
         st.markdown("<h5 style='color:#0F172A; font-weight:800;'>📊 Cơ Cấu Doanh Thu Theo Danh Mục</h5>", unsafe_allow_html=True)
@@ -446,7 +457,10 @@ with tab1:
                 font=dict(color="#0F172A", size=12, family="Plus Jakarta Sans"),
                 height=420,
                 margin=dict(l=10, r=10, t=20, b=20),
-                legend=dict(font=dict(color="#0F172A"))
+                legend=dict(
+                    title="",
+                    font=dict(color="#0F172A", size=11)
+                )
             )
             fig_donut.update_traces(textfont=dict(color="#0F172A"))
             st.plotly_chart(fig_donut, use_container_width=True)
@@ -473,8 +487,8 @@ with tab1:
                 font=dict(color="#0F172A", size=12),
                 height=320,
                 showlegend=False,
-                xaxis=dict(tickfont=dict(color="#0F172A")),
-                yaxis=dict(title="Doanh thu (VNĐ)", tickfont=dict(color="#0F172A"))
+                xaxis=dict(tickfont=dict(color="#0F172A", size=11)),
+                yaxis=dict(title="Doanh thu (VNĐ)", tickfont=dict(color="#0F172A", size=11))
             )
             fig_compare.update_traces(textfont=dict(color="#0F172A"))
             st.plotly_chart(fig_compare, use_container_width=True)
@@ -492,8 +506,8 @@ with tab1:
                 plot_bgcolor='rgba(0,0,0,0)',
                 font=dict(color="#0F172A", size=12),
                 height=320,
-                yaxis=dict(title="Số lượng SKU", tickfont=dict(color="#0F172A")),
-                xaxis=dict(title="Giá bán (VNĐ)", tickfont=dict(color="#0F172A"))
+                yaxis=dict(title="Số lượng SKU", tickfont=dict(color="#0F172A", size=11)),
+                xaxis=dict(title="Giá bán (VNĐ)", tickfont=dict(color="#0F172A", size=11))
             )
             st.plotly_chart(fig_hist, use_container_width=True)
 
@@ -535,7 +549,10 @@ with tab2:
                 plot_bgcolor='rgba(0,0,0,0)',
                 font=dict(color="#0F172A", size=12),
                 height=350,
-                legend=dict(font=dict(color="#0F172A"))
+                legend=dict(
+                    title="",
+                    font=dict(color="#0F172A", size=11)
+                )
             )
             fig_sent.update_traces(textfont=dict(color="#0F172A"))
             st.plotly_chart(fig_sent, use_container_width=True)
@@ -556,8 +573,8 @@ with tab2:
                 plot_bgcolor='rgba(0,0,0,0)',
                 font=dict(color="#0F172A", size=12),
                 height=350,
-                yaxis=dict(title="Lượt Review", tickfont=dict(color="#0F172A")),
-                xaxis=dict(tickfont=dict(color="#0F172A"))
+                yaxis=dict(title="Lượt Review", tickfont=dict(color="#0F172A", size=11)),
+                xaxis=dict(tickfont=dict(color="#0F172A", size=11))
             )
             fig_star.update_traces(textfont=dict(color="#0F172A"))
             st.plotly_chart(fig_star, use_container_width=True)
